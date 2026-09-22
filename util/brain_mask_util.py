@@ -179,7 +179,7 @@ class fan_roi_mask_manager:
         :param keywords: keyword to search(list)
         """
         name = "_".join(keywords)
-        if exclude_keywords != None:
+        if exclude_keywords is not None:
             name += "_exclude_" + "_".join(exclude_keywords)
             
         return brain_mask(mask_nifti_img = self.make_roi_with_search(keywords = keywords, exclude_keywords = exclude_keywords),
@@ -199,7 +199,7 @@ class fan_roi_mask_manager:
         search_paths = [os.path.join(self.mask_dir_path, "fan.roi." + key + ".nii.gz") for key in searched_dict] 
 
         # exclude
-        if exclude_keywords != None:
+        if exclude_keywords is not None:
             exclude_searched_dict = search_dict(self.mask_fan_info, exclude_keywords)
             exclude_search_paths = [os.path.join(self.mask_dir_path, "fan.roi." + key + ".nii.gz") for key in exclude_searched_dict] 
         else:
@@ -434,7 +434,7 @@ def untangle_mask_img(mask, select_values = None):
     
     mask_array = mask.get_fdata()
 
-    if select_values == None:
+    if select_values is None:
         uq_values = list(np.unique(mask_array).astype(int))
         uq_values.remove(0)
         select_values = uq_values
@@ -469,7 +469,7 @@ if __name__ == "__main__":
     label_info_path = "/mnt/sdb2/seojin/mask/BrainstemNavigator/0.9/seojin_MNI_ROI_images/brainstem_nav.tsv"
     bn_df = pd.read_csv(label_info_path, delimiter='\t', header = None)
     bn_df.columns = ["key", "value"]
-    bn_info = sj_dictionary.df_to_dict(bn_df)
+    bn_info = df_to_dict(bn_df)
     roi_manager = multi_label_roi_manager(labeled_img = bn_brain, label_info = bn_info, reference_img = mask_img)
     roi_img = roi_manager.search_mask_info(["C"])
 
